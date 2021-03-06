@@ -1,19 +1,22 @@
 /**
  * @author Daniel Pérez Fernández
  */
-// Librería de manejo de archivos File system de NodeJS
+// Importamos las librerias
 const fs = require('fs');
+const express = require('express');
+const helmet = require("helmet");
+const bodyParser = require('body-parser');
 
 // ExpresJS
-const express = require('express');
 const app = express();
 const port = 8001;
 
 // Body Parser
-var bodyParser = require('body-parser');
-
 app.use(bodyParser.urlencoded({extended: true})); // This will help in encoding.
 app.use(bodyParser.json()); // this will support json format
+
+// Librería que añade una capa extra de seguridad
+app.use(helmet());
 
 // Servir contenido estático
 app.use(express.static('public'));
@@ -97,6 +100,12 @@ app.get('/email/:nombre', (req, res) => {
     var nombre = req.params.nombre;
     
     res.send(email.altaEmailTemple(nombre).html);
+});
+
+// Evitamos la indexación de la API por los motores de busqueda
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
 });
 
 // Ruta génerica cuando ningúna de las anteriores es válida mostramos el 
