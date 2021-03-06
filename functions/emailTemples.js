@@ -21,9 +21,9 @@ htmlOutput = mjml2html(`
 
       <mj-divider border-color="#212529"></mj-divider>
 
-      <mj-text font-size="20px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre}! 👋</mj-text>
+      <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre}! 👋</mj-text>
 
-      <mj-text font-size="20px" color="black" font-family="helvetica" padding-top="20px">Welcome to Hotel Nube, where your dreams will be as soft as the clouds.</mj-text>
+      <mj-text font-size="20px" color="grey" font-family="helvetica" padding-top="20px" align="center" font-style="italic">❝ Where your dreams will be as soft as the clouds ❞</mj-text>
       
       
 <mj-text font-size="20px" color="black" font-family="helvetica" padding-top="20px">Your account was successfully created, now you can reserve rooms, get discounts ...</mj-text>
@@ -54,24 +54,25 @@ htmlOutput = mjml2html(`
           </mj-social-element>
           <mj-social-element name="twitter" href="https://hotelnube.ml" background-color="#A1A0A0">
           </mj-social-element>
-          <mj-social-element name="linkedin" href="https://mjml.io/" background-color="#A1A0A0">
+          <mj-social-element name="linkedin" href="https://hotelnube.ml/" background-color="#A1A0A0">
           </mj-social-element>
         </mj-social>
       </mj-column>
-
-
     </mj-section>
+    
+    <!-- Sección Final -->
     <mj-section>
-      <mj-column>
-        <mj-text font-size="15px" color="grey" font-family="helvetica" padding-top="20px">© Hotel Nube 2021</mj-text>
+      <mj-column width="100%" padding-right="0">
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">© Hotel Nube 2021</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text font-size="15px" color="grey" font-family="helvetica" padding-top="20px"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">🔒 Privacy Policy</a></mj-text>
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">🔒 Privacy Policy</a></mj-text>
       </mj-column>
       <mj-column>
-        <mj-text font-size="15px" color="grey" font-family="helvetica" padding-top="20px"><a style="text-decoration:none" href="https://hotelnube.ml/contact">📝 Contact</a></mj-text>
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/contact">📝 Contact</a></mj-text>
       </mj-column>
     </mj-section>
+    
   </mj-wrapper>
 
 

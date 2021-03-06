@@ -16,7 +16,11 @@ app.use(bodyParser.urlencoded({extended: true})); // This will help in encoding.
 app.use(bodyParser.json()); // this will support json format
 
 // Librería que añade una capa extra de seguridad
-app.use(helmet());
+app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  );
 
 // Servir contenido estático
 app.use(express.static('public'));
