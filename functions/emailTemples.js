@@ -17,13 +17,13 @@ htmlOutput = mjml2html(`
   <mj-section>
     <mj-column>
       <!-- Logo Hotel Nube-->
-      <mj-image width="200px" src="https://danielperez.es/hotel_nube.svg"></mj-image>
+      <mj-image width="200px" src="https://danielperez.es/hotel_nube.png"></mj-image>
 
       <mj-divider border-color="#212529"></mj-divider>
 
-      <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre}! 👋</mj-text>
+      <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre}! &#x1F44B;</mj-text>
 
-      <mj-text font-size="20px" color="grey" font-family="helvetica" padding-top="20px" align="center" font-style="italic">❝ Where your dreams will be as soft as the clouds ❞</mj-text>
+      <mj-text font-size="20px" color="grey" font-family="helvetica" padding-top="20px" align="center" font-style="italic">&#x275d; Where your dreams will be as soft as the clouds &#x275e;</mj-text>
       
       
 <mj-text font-size="20px" color="black" font-family="helvetica" padding-top="20px">Your account was successfully created, now you can reserve rooms, get discounts ...</mj-text>
@@ -63,13 +63,13 @@ htmlOutput = mjml2html(`
     <!-- Sección Final -->
     <mj-section>
       <mj-column width="100%" padding-right="0">
-        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">© Hotel Nube 2021</mj-text>
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">🔒 Privacy Policy</a></mj-text>
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">&#x1F512; Privacy Policy</a></mj-text>
       </mj-column>
       <mj-column>
-        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/contact">📝 Contact</a></mj-text>
+        <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/contact">&#x1F4DD; Contact</a></mj-text>
       </mj-column>
     </mj-section>
     
