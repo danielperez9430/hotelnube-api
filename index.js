@@ -6,6 +6,7 @@ const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
 // ExpresJS
 const app = express();
@@ -21,6 +22,9 @@ app.use(
       contentSecurityPolicy: false,
     })
   );
+
+// Permitimos el uso de cors
+app.use(cors());
 
 // Servir contenido estático
 app.use(express.static('public'));
