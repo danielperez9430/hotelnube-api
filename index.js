@@ -110,6 +110,12 @@ app.get('/email/:nombre', (req, res) => {
     res.send(email.altaEmailTemple(nombre).html);
 });
 
+app.post('/email/reserve/', (req, res) => {
+    var reserve_data = JSON.parse(JSON.stringify(req.body));
+    console.log(req.body);
+    res.send(email.crearEmailReserva(reserve_data).html);
+});
+
 // Evitamos la indexación de la API por los motores de busqueda
 app.get('/robots.txt', function (req, res) {
     res.type('text/plain');
