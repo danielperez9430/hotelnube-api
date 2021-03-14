@@ -1,6 +1,5 @@
-/**
- * @author Daniel Pérez Fernández
- */
+// @author Daniel Pérez Fernández
+
 // Importamos las librerias
 const fs = require('fs');
 const express = require('express');
@@ -37,7 +36,6 @@ try {
     // Comprobamos si el archivo existe lo cargamos
     if (fs.existsSync('./data/datos.json')) {
         var datos = require('./data/datos.json');
-       // console.log(datos[0].provincias);
     } else {
         // Si el archivo no existe inicializamos un array vacio
         var datos = [];
@@ -105,7 +103,7 @@ app.get('/buscar/:pais/:provincia', (req, res) => {
 
 
 app.get('/email/:nombre', (req, res) => {
-    var nombre = req.params.nombre;
+    var nombre = decodeURIComponent(req.params.nombre);
     
     res.send(email.altaEmailTemple(nombre).html);
 });
