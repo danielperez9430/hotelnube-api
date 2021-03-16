@@ -13,6 +13,8 @@ var options = {
  * @returns {String} devuelve una página html
  */
 function altaEmailTemple(nombre) {
+	
+	var nombre_saneado = reemplazarAcentos(nombre);
 
   var htmlOutput = mjml2html(`<mjml>
   <mj-body>
@@ -23,7 +25,7 @@ function altaEmailTemple(nombre) {
 
         <mj-divider border-color="#212529"></mj-divider>
 
-        <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre}! &#x1F44B;</mj-text>
+        <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre_saneado}! &#x1F44B;</mj-text>
 
         <mj-text font-size="20px" color="grey" font-family="helvetica" padding-top="20px" align="center" font-style="italic">&#x275d; Where your dreams will be as soft as the clouds &#x275e;</mj-text>
 
@@ -94,7 +96,7 @@ function crearHabitacion(data) {
 
 
   data.habitaciones.forEach(element => {
-    console.log(element);
+
     habitaciones += `<mj-section background-color="#f3f3f0">
     <mj-column>
       <mj-image width="500px" src="${element.room_img}"></mj-image>
@@ -207,6 +209,32 @@ function crearEmailReserva(reserva) {
   var htmlOutput = mjml2html(emailTemple, options);
 
   return JSON.parse(JSON.stringify(htmlOutput));
+}
+
+/**
+ * Función que sirve para remplazar las tildes a entidades HTML
+ * 
+ * @param {String} cadena de texto con el texto a corregir
+ * @returns cadena de texto
+ */
+function reemplazarAcentos(cadena) {
+
+	var chars={
+
+		"á":"&aacute;", "é":"&eacute;", "í":"&iacute;", "ó":"&oacute;", "ú":"&uacute;",
+
+		"à":"&agrave;", "è":"&egrave;", "ì":"&igrave;", "ò":"&ograve;", "ù":"&ugrave;", "ñ":"&ntilde;",
+
+		"Á":"&Aacute;", "É":"&Eacute;", "Í":"&Iacute;", "Ó":"&Oacute;", "Ú":"&Uacute;",
+
+		"À":"&Agrave;", "È":"&Egrave;", "Ì":"&Igrave;", "Ò":"&Ograve;", "Ù":"&Ugrave;", "Ñ":"&Ntilde;"}
+
+	var expr = /[áàéèíìóòúùñ]/ig;
+
+	var res = cadena.replace(expr,function(e){return chars[e]});
+
+	return res;
+
 }
 
 module.exports = { altaEmailTemple, crearEmailReserva };

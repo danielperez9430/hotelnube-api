@@ -5,7 +5,7 @@ const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
 
 // ExpresJS
 const app = express();
@@ -88,7 +88,7 @@ app.get('/buscar/:pais/:provincia', (req, res) => {
             element.provincias.forEach(element => {
 
                 if(element.provincia === provincia) {
-                    console.log("hey")
+
                     datos_pais.push(element.ciudades);
                 }
                 
@@ -103,14 +103,15 @@ app.get('/buscar/:pais/:provincia', (req, res) => {
 
 
 app.get('/email/:nombre', (req, res) => {
-    var nombre = decodeURIComponent(req.params.nombre);
+
+    var nombre = req.params.nombre.replace(new RegExp("\\+","g"), " ");
     
     res.send(email.altaEmailTemple(nombre).html);
 });
 
 app.post('/email/reserve/', (req, res) => {
     var reserve_data = JSON.parse(JSON.stringify(req.body));
-    console.log(req.body);
+
     res.send(email.crearEmailReserva(reserve_data).html);
 });
 
