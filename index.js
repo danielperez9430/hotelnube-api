@@ -123,8 +123,8 @@ app.get('/robots.txt', function (req, res) {
 
 // Ruta génerica cuando ningúna de las anteriores es válida mostramos el 
 // archivo de error 404
-app.get('/*', (req, res) => {
-    res.sendFile(__dirname+'/public/404.html');
+app.use((req, res) => {
+    res.status(404).sendFile(__dirname + '/public/404.html');
 });
 
 // Muestra el puerto de escucha de nuestra aplicación en ExpressJS
