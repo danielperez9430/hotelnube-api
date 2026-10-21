@@ -123,7 +123,9 @@ function crearEmailReserva(reserva) {
 
    var habitaciones = crearHabitacion(reserva);
 
-   var order_total_price = '10€';
+   // Sumamos el precio de todas las habitaciones reservadas
+   var total = reserva.habitaciones.reduce((suma, habitacion) => suma + Number(habitacion.precio), 0);
+   var order_total_price = escaparHtml(Math.round(total * 100) / 100) + '&euro;';
 
   var emailTemple = `<mjml>
   <mj-body>
