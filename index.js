@@ -32,70 +32,53 @@ app.use(express.static('public'));
 const email = require('./functions/emailTemples.js');
 
 
+let datos = [];
+
 try {
-    // Comprobamos si el archivo existe lo cargamos
+    // Comprobamos si el archivo existe y lo cargamos
     if (fs.existsSync('./data/datos.json')) {
-        var datos = require('./data/datos.json');
-    } else {
-        // Si el archivo no existe inicializamos un array vacio
-        var datos = [];
+        datos = require('./data/datos.json');
     }
 } catch (err) {
-    // En caso de error mostramos el mensaje por consola
+    // En caso de error mostramos el mensaje por consola y seguimos con un array vacío
     console.error(err);
 }
 
 
 app.get('/paises', (req, res) => {
     
-    paises = [];
-
-    datos.forEach(element => {
-        paises.push(element.pais);
-    });
-
-    res.json(paises);
+    res.json(datos.map(element => element.pais));
 });
 
 
 app.get('/buscar/:pais', (req, res) => {
-    var pais = req.params.pais;
-    datos_pais = [];
+    const pais = req.params.pais;
+    const datos_pais = [];
 
     datos.forEach(element => {
-        if(element.pais === pais) {
-
+        if (element.pais === pais) {
             element.provincias.forEach(element => {
                 datos_pais.push(element.provincia);
             });
-            
         }
-       
     });
 
     res.json(datos_pais);
 });
 
 app.get('/buscar/:pais/:provincia', (req, res) => {
-    var pais = req.params.pais;
-    var provincia = req.params.provincia;
-
-    datos_pais = [];
+    const pais = req.params.pais;
+    const provincia = req.params.provincia;
+    const datos_pais = [];
 
     datos.forEach(element => {
-        if(element.pais === pais) {
-
+        if (element.pais === pais) {
             element.provincias.forEach(element => {
-
-                if(element.provincia === provincia) {
-
+                if (element.provincia === provincia) {
                     datos_pais.push(element.ciudades);
                 }
-                
             });
-            
         }
-       
     });
 
     res.json(datos_pais);
@@ -104,15 +87,20 @@ app.get('/buscar/:pais/:provincia', (req, res) => {
 
 app.get('/email/:nombre', (req, res) => {
 
-    var nombre = req.params.nombre.replace(new RegExp("\\+","g"), " ");
+    const nombre = req.params.nombre.replace(/\+/g, " ");
     
     res.send(email.altaEmailTemple(nombre).html);
 });
 
 app.post('/email/reserve/', (req, res) => {
-    var reserve_data = JSON.parse(JSON.stringify(req.body));
+    const reserva = req.body;
 
-    res.send(email.crearEmailReserva(reserve_data).html);
+    // Validamos que la reserva tenga al menos una habitación
+    if (!reserva || !Array.isArray(reserva.habitaciones) || reserva.habitaciones.length === 0) {
+        return res.status(400).json({ error: 'La reserva debe incluir al menos una habitación' });
+    }
+
+    res.send(email.crearEmailReserva(reserva).html);
 });
 
 // Evitamos la indexación de la API por los motores de busqueda
