@@ -9,7 +9,7 @@ const cors = require('cors');
 
 // ExpresJS
 const app = express();
-const port = 8001;
+const port = process.env.PORT || 8001;
 
 // Body Parser
 app.use(bodyParser.urlencoded({extended: true})); // This will help in encoding.
