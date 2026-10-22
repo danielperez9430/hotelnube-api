@@ -219,7 +219,7 @@ La página 404 no carga nada de fuera: el reproductor [lottie-player](https://gi
 
 ## 🤖 Dependencias
 
-[Dependabot](.github/dependabot.yml) revisa cada lunes las dependencias de npm, las acciones de GitHub y la imagen base de Docker. Las versiones menores y los parches llegan agrupados en un solo PR; las mayores, uno a uno (las de Node se actualizan a mano junto con la matriz de la CI).
+[Dependabot](.github/dependabot.yml) revisa cada lunes las dependencias de npm, las acciones de GitHub y la imagen base de Docker. Solo propone versiones **menores y parches**, agrupadas en un solo PR por ecosistema. Las versiones mayores pueden romper la compatibilidad, así que se actualizan a mano (las de Node, junto con la matriz de la CI).
 
 ## 🧪 Tests y lint
 
