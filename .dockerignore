@@ -1,0 +1,22 @@
+# Dependencias: se instalan dentro de la imagen
+node_modules
+npm-debug.log*
+
+# Control de versiones y CI
+.git
+.gitignore
+.github
+
+# Desarrollo y tests
+test
+eslint.config.js
+coverage
+.env
+.env.*
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Documentación
+*.md

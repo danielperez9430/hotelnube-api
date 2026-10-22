@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --test",
+    "lint": "eslint ."
   },
   "engines": {
     "node": ">=18"
@@ -17,5 +19,11 @@
     "express": "^5.3.0",
     "helmet": "^8.3.0",
     "mjml": "^5.4.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "supertest": "^7.3.1"
   }
 }

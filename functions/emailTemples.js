@@ -222,7 +222,7 @@ async function crearEmailReserva(reserva) {
  * @returns {String} cadena de texto escapada
  */
 function escaparHtml(valor) {
-  return String(valor ?? '').replace(/[&<>"']|[^\x00-\x7F]/gu, c => `&#${c.codePointAt(0)};`);
+  return String(valor ?? '').replace(/[&<>"']|[\u0080-\u{10FFFF}]/gu, c => `&#${c.codePointAt(0)};`);
 }
 
 module.exports = { altaEmailTemple, crearEmailReserva, escaparHtml };
