@@ -44,7 +44,7 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
 
 ## ✅ Requisitos
 
-- 🟢 **Node.js 22.9** o superior (para cargar el `.env` con `--env-file-if-exists`)
+- 🟢 **Node.js 24** (LTS) o superior. El fichero [`.nvmrc`](.nvmrc) permite seleccionarla con `nvm use`
 - 📦 **npm**
 
 ## 🚀 Puesta en marcha
@@ -89,7 +89,7 @@ ALLOWED_ORIGINS="https://hotelnube.example.com,http://localhost:8000" npm start
 
 ## 🐳 Docker
 
-El [`Dockerfile`](Dockerfile) genera una imagen `node:24-alpine` con solo las dependencias de producción, que se ejecuta con el usuario sin privilegios `node` y escucha en el puerto `8001`.
+El [`Dockerfile`](Dockerfile) genera una imagen `node:24.22.1-alpine` con solo las dependencias de producción, que se ejecuta con el usuario sin privilegios `node` y escucha en el puerto `8001`.
 
 ```bash
 docker build -t hotelnube-api .
@@ -232,9 +232,9 @@ npm run lint    # revisa el código con ESLint
 ```
 
 > [!NOTE]
-> Las herramientas de desarrollo (ESLint 10) necesitan **Node.js 20.19, 22.13 o 24** en adelante; para ejecutar la API basta con Node.js 22.9.
+> Tanto la API como las herramientas de desarrollo (ESLint 10) usan **Node.js 24**, la versión LTS actual.
 
-🤖 **Integración continua**: [GitHub Actions](.github/workflows/ci.yml) ejecuta `npm run lint` y `npm test` con Node 22 y 24 en cada push y pull request a `master`.
+🤖 **Integración continua**: [GitHub Actions](.github/workflows/ci.yml) ejecuta `npm run lint` y `npm test` con Node 24 en cada push y pull request a `master`.
 
 ## 🗂️ Estructura del proyecto
 
