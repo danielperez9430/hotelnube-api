@@ -25,6 +25,7 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
   - [🌍 Datos geográficos](#-datos-geográficos)
   - [✉️ Correos](#️-correos)
   - [🤖 Otros](#-otros)
+- [🤖 Dependencias](#-dependencias)
 - [🧪 Tests y lint](#-tests-y-lint)
 - [🗂️ Estructura del proyecto](#️-estructura-del-proyecto)
 - [🎨 Identidad visual](#-identidad-visual)
@@ -90,7 +91,26 @@ docker build -t hotelnube-api .
 docker run --rm -p 8001:8001 -e SITE_URL=http://localhost:8000 hotelnube-api
 ```
 
-La web de Hotel Nube puede construirla directamente desde el repositorio en su `docker-compose.yml`:
+### 📦 Imagen publicada
+
+El workflow [`docker.yml`](.github/workflows/docker.yml) publica la imagen en GitHub Container Registry:
+
+| Evento | Etiquetas |
+| ------ | --------- |
+| Push a `master` | `ghcr.io/danielperez9430/hotelnube-api:master` y `:sha-<commit>` |
+| Etiqueta `vX.Y.Z` | `:X.Y.Z`, `:X.Y` y `:latest` |
+| Pull request | Solo se construye, sin publicar |
+
+```bash
+docker pull ghcr.io/danielperez9430/hotelnube-api:master
+```
+
+> [!NOTE]
+> Si el paquete es privado, inicia sesión antes con `echo $TOKEN | docker login ghcr.io -u <usuario> --password-stdin` (un token con permiso `read:packages`).
+
+### 🧩 Desde la web
+
+La web de Hotel Nube puede construirla directamente desde el repositorio en su `docker-compose.yml`, o usar la imagen publicada en `docker-compose.prod.yml`:
 
 ```yaml
 services:
@@ -188,6 +208,10 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
 | `*` | Cualquier otra ruta | `404` con la página [`views/404.html`](views/404.html) |
 
 La página 404 no carga nada de fuera: el reproductor [lottie-player](https://github.com/LottieFiles/lottie-player) 2.0.12 (licencia MIT) está en `public/vendor/lottie-player/` y la animación en `public/animations/404.json`.
+
+## 🤖 Dependencias
+
+[Dependabot](.github/dependabot.yml) revisa cada lunes las dependencias de npm, las acciones de GitHub y la imagen base de Docker. Las versiones menores y los parches llegan agrupados en un solo PR; las mayores, uno a uno (las de Node se actualizan a mano junto con la matriz de la CI).
 
 ## 🧪 Tests y lint
 

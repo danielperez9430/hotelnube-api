@@ -1,0 +1,46 @@
+# Actualizaciones automáticas de dependencias. Las versiones menores y los
+# parches llegan agrupados en un solo PR por ecosistema; las mayores, uno a uno
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Madrid
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    groups:
+      menores:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Madrid
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      acciones:
+        patterns: ["*"]
+
+  # Imagen base del Dockerfile (node). Las versiones mayores de Node se
+  # actualizan a mano, junto con la matriz de la CI
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Madrid
+    commit-message:
+      prefix: "chore(docker)"
+    ignore:
+      - dependency-name: node
+        update-types: [version-update:semver-major]
