@@ -4,16 +4,15 @@
 const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // ExpresJS
 const app = express();
 const port = process.env.PORT || 8001;
 
-// Body Parser
-app.use(bodyParser.urlencoded({extended: true})); // This will help in encoding.
-app.use(bodyParser.json()); // this will support json format
+// Lectura del cuerpo de las peticiones (formularios y JSON)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Librería que añade una capa extra de seguridad
 app.use(
