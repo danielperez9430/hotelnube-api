@@ -10,13 +10,13 @@ var options = {
  * Función que compila el temple de MJML y lo devuelve compilado
  * 
  * @param {String} nombre cadena de texto con el nombre del usuario
- * @returns {String} devuelve una página html
+ * @returns {Promise<Object>} promesa con el resultado de mjml ({ html, errors })
  */
-function altaEmailTemple(nombre) {
+async function altaEmailTemple(nombre) {
 	
 	var nombre_saneado = escaparHtml(nombre);
 
-  var htmlOutput = mjml2html(`<mjml>
+  return mjml2html(`<mjml>
   <mj-body>
     <mj-section>
       <mj-column>
@@ -80,8 +80,6 @@ function altaEmailTemple(nombre) {
 
   </mj-body>
 </mjml>`, options);
-
-  return htmlOutput;
 }
 
 /**
@@ -117,9 +115,9 @@ function crearHabitacion(data) {
  * Función que genera el email de la reserva
  * 
  * @param {Object} reserva Objecto con la información de la reserva
- * @returns {Object} devolvemos un objecto JSON con la plantilla procesada de texto con 
+ * @returns {Promise<Object>} promesa con el resultado de mjml ({ html, errors })
  */
-function crearEmailReserva(reserva) {
+async function crearEmailReserva(reserva) {
 
    var habitaciones = crearHabitacion(reserva);
 
