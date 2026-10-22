@@ -89,7 +89,7 @@ curl http://localhost:8001/paises
 # ["Russian Federation","United States","Spain", ...]
 
 curl http://localhost:8001/buscar/Spain
-# ["A Coruna","Alava","Albacete", ...]
+# ["A Coruna","Alacant","Alava", ...]
 
 curl "http://localhost:8001/buscar/Spain/A%20Coruna"
 # [["A Bana","A Capela","A Coruna", ...]]
