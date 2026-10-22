@@ -285,4 +285,6 @@ Los correos y la página 404 siguen la paleta de lujo de Hotel Nube: carbón `#1
 
 ## 📄 Licencia
 
-ISC © Daniel Pérez Fernández
+[MIT](LICENSE) © 2021–2026 Daniel Pérez Fernández
+
+Las dependencias de terceros, como [lottie-player](https://github.com/LottieFiles/lottie-player) (MIT), conservan sus propias licencias.
