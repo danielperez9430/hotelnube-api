@@ -5,10 +5,10 @@ const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
 const cors = require('cors');
+const { port, allowedOrigins } = require('./config.js');
 
 // ExpresJS
 const app = express();
-const port = process.env.PORT || 8001;
 
 // Lectura del cuerpo de las peticiones (formularios y JSON)
 app.use(express.urlencoded({ extended: true }));
@@ -21,8 +21,9 @@ app.use(
     })
   );
 
-// Permitimos el uso de cors
-app.use(cors());
+// Solo los orígenes permitidos reciben la cabecera Access-Control-Allow-Origin.
+// Las peticiones sin cabecera Origin (curl, el servidor PHP) no se ven afectadas
+app.use(cors({ origin: allowedOrigins }));
 
 // Servir contenido estático
 app.use(express.static('public'));
