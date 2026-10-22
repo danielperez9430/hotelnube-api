@@ -1,5 +1,7 @@
 # ☁️ Hotel Nube API
 
+[![CI](https://github.com/danielperez9430/hotelnube-api/actions/workflows/ci.yml/badge.svg)](https://github.com/danielperez9430/hotelnube-api/actions/workflows/ci.yml)
+
 API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-proyecto)**. Se encarga de dos cosas:
 
 - 🌍 **Datos geográficos**: países, provincias y ciudades para los formularios de registro y de ajustes de cuenta.
@@ -14,10 +16,12 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
 - [✅ Requisitos](#-requisitos)
 - [🚀 Puesta en marcha](#-puesta-en-marcha)
 - [⚙️ Configuración](#️-configuración)
+- [🐳 Docker](#-docker)
 - [📡 Endpoints](#-endpoints)
   - [🌍 Datos geográficos](#-datos-geográficos)
   - [✉️ Correos](#️-correos)
   - [🤖 Otros](#-otros)
+- [🧪 Tests y lint](#-tests-y-lint)
 - [🗂️ Estructura del proyecto](#️-estructura-del-proyecto)
 - [🔒 Seguridad](#-seguridad)
 - [🤝 Contribuir](#-contribuir)
@@ -70,6 +74,27 @@ PORT=3000 SITE_URL=https://hotelnube.example.com npm start
 
 # Varios orígenes permitidos
 ALLOWED_ORIGINS="https://hotelnube.example.com,http://localhost:8000" npm start
+```
+
+## 🐳 Docker
+
+El [`Dockerfile`](Dockerfile) genera una imagen `node:24-alpine` con solo las dependencias de producción, que se ejecuta con el usuario sin privilegios `node` y escucha en el puerto `8001`.
+
+```bash
+docker build -t hotelnube-api .
+docker run --rm -p 8001:8001 -e SITE_URL=http://localhost:8000 hotelnube-api
+```
+
+La web de Hotel Nube puede construirla directamente desde el repositorio en su `docker-compose.yml`:
+
+```yaml
+services:
+  api:
+    build: https://github.com/danielperez9430/hotelnube-api.git#master
+    environment:
+      SITE_URL: http://localhost:8000
+    ports:
+      - "8001:8001"
 ```
 
 ## 📡 Endpoints
@@ -159,11 +184,27 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
 
 La página 404 no carga nada de fuera: el reproductor [lottie-player](https://github.com/LottieFiles/lottie-player) 2.0.12 (licencia MIT) está en `public/vendor/lottie-player/` y la animación en `public/animations/404.json`.
 
+## 🧪 Tests y lint
+
+Los tests usan el runner nativo de Node ([`node:test`](https://nodejs.org/api/test.html)) y [supertest](https://github.com/ladjs/supertest), sin levantar el servidor. El lint usa [ESLint](https://eslint.org) con la configuración recomendada.
+
+```bash
+npm ci          # instala también las dependencias de desarrollo
+npm test        # ejecuta los tests de test/
+npm run lint    # revisa el código con ESLint
+```
+
+> [!NOTE]
+> Las herramientas de desarrollo (ESLint 10) necesitan **Node.js 20.19, 22.13 o 24** en adelante; para ejecutar la API basta con Node.js 18.
+
+🤖 **Integración continua**: [GitHub Actions](.github/workflows/ci.yml) ejecuta `npm run lint` y `npm test` con Node 22 y 24 en cada push y pull request a `master`.
+
 ## 🗂️ Estructura del proyecto
 
 ```
 hotelnube-api/
-├── 📄 index.js                 # Servidor Express y definición de rutas
+├── 📄 app.js                   # Aplicación Express y definición de rutas
+├── 📄 index.js                 # Arranque del servidor
 ├── ⚙️ config.js                # Configuración a partir de variables de entorno
 ├── 📁 functions/
 │   └── emailTemples.js         # Plantillas MJML de los correos
@@ -174,6 +215,10 @@ hotelnube-api/
 │   ├── css/                    # Estilos
 │   ├── animations/             # Animación de la página 404
 │   └── vendor/lottie-player/   # Reproductor de animaciones (copia local)
+├── 📁 test/                    # Tests (node:test + supertest)
+├── 📁 .github/workflows/       # Integración continua
+├── 🐳 Dockerfile
+├── 🧹 eslint.config.js
 ├── 📦 package.json
 └── 🔒 package-lock.json
 ```
@@ -193,7 +238,8 @@ hotelnube-api/
    fix(email): calcula el total real de la reserva
    build(deps): actualiza mjml a 5.4.1
    ```
-3. 🔀 Abre un Pull Request contra `master` explicando el cambio y cómo se ha probado.
+3. ✅ Comprueba que `npm run lint` y `npm test` pasan.
+4. 🔀 Abre un Pull Request contra `master` explicando el cambio y cómo se ha probado.
 
 ## 📄 Licencia
 
