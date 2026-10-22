@@ -156,7 +156,7 @@ curl "http://localhost:8001/email/Jos%C3%A9+Mu%C3%B1oz"
 
 #### 🛏️ `POST /email/reserve` — Confirmación de reserva
 
-Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del pedido se calcula sumando el `precio` de todas las habitaciones.
+Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del pedido se calcula sumando el `precio` de todas las habitaciones y de los servicios extra. `servicios` es opcional: si llega, cada extra se muestra en una sección **Extras** (los de precio `0` como *Included*).
 
 ```json
 {
@@ -171,6 +171,9 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
       "fecha_salida": "2021-03-04",
       "precio": "150"
     }
+  ],
+  "servicios": [
+    { "nombre": "Spa & Wellness Circuit", "precio": 45 }
   ]
 }
 ```
@@ -178,7 +181,7 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
 | Código | Cuándo |
 | ------ | ------ |
 | `200` | HTML del correo |
-| `400` | La reserva no incluye ninguna habitación |
+| `400` | La reserva no incluye ninguna habitación, o `servicios` no es una lista |
 
 ### 🤖 Otros
 
