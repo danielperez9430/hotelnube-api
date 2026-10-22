@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
+    <meta name="robots" content="noindex">
+    <title>404 · Hotel Nube</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="/vendor/lottie-player/lottie-player.js"></script>
 </head>
 
 <body>
+    <main class="marco">
+        <p class="codigo">404</p>
+        <h1>Ups, la página que busca no existe</h1>
+        <div class="divisor"><span></span><i></i><span></span></div>
 
-    <h1>Ups, la página que busca no existe</h1>
+        <lottie-player src="/animations/404.json" background="transparent" speed="1"
+            style="width: 320px; height: 320px;" autoplay></lottie-player>
 
-    <lottie-player src="/animations/404.json" background="transparent" speed="1"
-        style="width: 400px; height: 400px;" autoplay></lottie-player>
-
-    <button id="home" data-href="{{SITE_URL}}/" onclick="location.href = this.dataset.href;">Regresar</button>
-
+        <button id="home" data-href="{{SITE_URL}}/" onclick="location.href = this.dataset.href;">Regresar a Hotel Nube</button>
+    </main>
 </body>
 
 </html>

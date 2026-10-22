@@ -1,47 +1,95 @@
+/* Página 404 con la identidad visual de Hotel Nube:
+   carbón #1F2929, oro #DCB004 y marfil #F5EFE0 */
 * {
 	padding: 0;
 	margin: 0;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
 body {
-	font-family: "Open Sans", sans-serif;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background: radial-gradient(ellipse at 50% 40%, #2A3838 0%, #1F2929 45%, #111717 100%);
+	color: #F5EFE0;
+	font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-#button {
+.marco {
 	width: 100%;
-	margin: auto;
-	padding: 8px;
-	background-color: #226fc1;
-	color: white;
-	border-radius: 3px;
-	height: 60px;
-	margin-top: 40px;
-	font-size: 23px;
+	max-width: 640px;
+	padding: 40px 24px;
+	border: 1.5px solid rgba(220, 176, 4, 0.75);
+	outline: 1px solid rgba(220, 176, 4, 0.35);
+	outline-offset: 6px;
+	text-align: center;
+}
+
+.codigo {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 72px;
+	letter-spacing: 12px;
+	color: #DCB004;
+	line-height: 1;
 }
 
 h1 {
-	text-align: center;
-	margin-top: 10px;
+	font-family: Georgia, "Times New Roman", serif;
+	font-style: italic;
+	font-weight: normal;
+	font-size: 26px;
+	margin-top: 16px;
 }
 
-#home {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #226fc1;
-	color: white;
-	border-radius: 3px;
-	width: 200px;
-	height: 50px;
-	margin-top: 20px;
-	font-size: 20px;
+.divisor {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	margin: 20px 0 8px;
+}
+
+.divisor span {
+	width: 90px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, #C9A44C);
+}
+
+.divisor span:last-child {
+	background: linear-gradient(270deg, transparent, #C9A44C);
+}
+
+.divisor i {
+	width: 8px;
+	height: 8px;
+	background: #DCB004;
+	transform: rotate(45deg);
 }
 
 lottie-player {
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+#home {
+	display: block;
+	margin: 16px auto 0;
+	padding: 14px 28px;
+	background-color: transparent;
+	color: #DCB004;
+	border: 1.5px solid #DCB004;
+	border-radius: 2px;
+	font-size: 14px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+}
+
+#home:hover {
+	background-color: #DCB004;
+	color: #1F2929;
 }
