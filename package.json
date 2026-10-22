@@ -9,7 +9,7 @@
     "lint": "eslint ."
   },
   "engines": {
-    "node": ">=22.9"
+    "node": ">=24"
   },
   "keywords": [],
   "author": "Daniel Pérez Fernández",
