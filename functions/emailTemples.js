@@ -4,10 +4,19 @@ const { siteUrl } = require('../config.js');
 // URL de la web escapada una sola vez para insertarla en los atributos de las plantillas
 const sitio = escaparHtml(siteUrl);
 
-// Opciones de la librería mjml
+// Opciones de la librería mjml. fonts vacío evita que mjml añada un
+// @import de Google Fonts (Ubuntu) a los correos
 var options = {
-  "collapseWhitespace": true, "minifyCSS": true, "removeEmptyAttributes": true
+  "collapseWhitespace": true, "minifyCSS": true, "removeEmptyAttributes": true,
+  "fonts": {}
 };
+
+// Iconos de redes sociales servidos por la web de Hotel Nube (oro sobre
+// carbón) en lugar del CDN de Mailjet. Las variantes -noshare enlazan
+// directamente a href en vez de a la página de compartir de cada red
+const redesSociales = [['facebook-noshare', 'facebook'], ['instagram', 'instagram'], ['twitter-noshare', 'twitter'], ['linkedin-noshare', 'linkedin']]
+  .map(([nombre, icono]) => `            <mj-social-element name="${nombre}" href="${sitio}/" src="${sitio}/src/icons/social/${icono}.png" background-color="#1F2929"></mj-social-element>`)
+  .join('\n');
 
 
 /**
@@ -54,14 +63,7 @@ async function altaEmailTemple(nombre) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="google" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="twitter" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="linkedin" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
+${redesSociales}
           </mj-social>
         </mj-column>
       </mj-section>
@@ -179,14 +181,7 @@ async function crearEmailReserva(reserva) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="google" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="twitter" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
-            <mj-social-element name="linkedin" href="${sitio}/" background-color="#1F2929">
-            </mj-social-element>
+${redesSociales}
           </mj-social>
         </mj-column>
       </mj-section>
