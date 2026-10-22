@@ -14,7 +14,7 @@ var options = {
  */
 function altaEmailTemple(nombre) {
 	
-	var nombre_saneado = reemplazarAcentos(nombre);
+	var nombre_saneado = escaparHtml(nombre);
 
   var htmlOutput = mjml2html(`<mjml>
   <mj-body>
@@ -81,7 +81,7 @@ function altaEmailTemple(nombre) {
   </mj-body>
 </mjml>`, options);
 
-  return JSON.parse(JSON.stringify(htmlOutput));
+  return htmlOutput;
 }
 
 /**
@@ -99,14 +99,14 @@ function crearHabitacion(data) {
 
     habitaciones += `<mj-section background-color="#f3f3f0">
     <mj-column>
-      <mj-image width="500px" src="${element.room_img}"></mj-image>
+      <mj-image width="500px" src="${escaparHtml(element.room_img)}"></mj-image>
     </mj-column>
     <mj-column padding-right="10px" padding-left="10px">
-      <mj-text font-weight="bold" align="center" font-size="24px" color="#000" font-family="helvetica">${element.room_name}</mj-text>
+      <mj-text font-weight="bold" align="center" font-size="24px" color="#000" font-family="helvetica">${escaparHtml(element.room_name)}</mj-text>
       <mj-divider border-color="red" border-width="2px" padding="2px"></mj-divider>
-      <mj-text align="justify" font-size="15px" color="#000" padding-top="20px" font-family="helvetica">&#x1F4C5; <b>Check-in:</b> ${element.fecha_entrada}</mj-text>
-      <mj-text align="justify" font-size="15px" color="#000" font-family="helvetica">&#x1F4C5; <b>Check-out:</b> ${element.fecha_salida}</mj-text>
-      <mj-text align="center" font-size="15px" color="#000" font-family="helvetica"><b>Price:</b> ${element.precio + '€'}</mj-text>
+      <mj-text align="justify" font-size="15px" color="#000" padding-top="20px" font-family="helvetica">&#x1F4C5; <b>Check-in:</b> ${escaparHtml(element.fecha_entrada)}</mj-text>
+      <mj-text align="justify" font-size="15px" color="#000" font-family="helvetica">&#x1F4C5; <b>Check-out:</b> ${escaparHtml(element.fecha_salida)}</mj-text>
+      <mj-text align="center" font-size="15px" color="#000" font-family="helvetica"><b>Price:</b> ${escaparHtml(element.precio)}&euro;</mj-text>
     </mj-column>
   </mj-section>`;
   });
@@ -123,7 +123,9 @@ function crearEmailReserva(reserva) {
 
    var habitaciones = crearHabitacion(reserva);
 
-   var order_total_price = '10€';
+   // Sumamos el precio de todas las habitaciones reservadas
+   var total = reserva.habitaciones.reduce((suma, habitacion) => suma + Number(habitacion.precio), 0);
+   var order_total_price = escaparHtml(Math.round(total * 100) / 100) + '&euro;';
 
   var emailTemple = `<mjml>
   <mj-body>
@@ -134,7 +136,7 @@ function crearEmailReserva(reserva) {
 
         <mj-divider border-color="#212529"></mj-divider>
 
-        <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Hi ${reserva.nombre}! &#x1F44B;</mj-text>
+        <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Hi ${escaparHtml(reserva.nombre)}! &#x1F44B;</mj-text>
 
         <mj-text font-size="20px" color="grey" font-family="helvetica" padding-top="20px" align="center" font-style="italic">&#x275d; Your order was correctly registered in our system&#x275e;</mj-text>
       </mj-column>
@@ -157,11 +159,11 @@ function crearEmailReserva(reserva) {
     <mj-section background-color="#568feb" padding-bottom="15px">
       <mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Number</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${reserva.id}</mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.id)}</mj-text>
       </mj-column>
       <mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Date</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${reserva.order_date}</mj-text>
+        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.order_date)}</mj-text>
       </mj-column>
       <mj-column>
         <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Total Price</strong></mj-text>
@@ -206,35 +208,19 @@ function crearEmailReserva(reserva) {
   </mj-body>
 </mjml>`;
 
-  var htmlOutput = mjml2html(emailTemple, options);
-
-  return JSON.parse(JSON.stringify(htmlOutput));
+  return mjml2html(emailTemple, options);
 }
 
 /**
- * Función que sirve para remplazar las tildes a entidades HTML
+ * Función que escapa un texto para insertarlo de forma segura en la plantilla.
+ * Convierte los caracteres especiales de HTML y todos los caracteres no ASCII
+ * (tildes, eñes, emojis...) en entidades HTML numéricas
  * 
- * @param {String} cadena de texto con el texto a corregir
- * @returns cadena de texto
+ * @param {*} valor valor a escapar, se convierte a cadena de texto
+ * @returns {String} cadena de texto escapada
  */
-function reemplazarAcentos(cadena) {
-
-	var chars={
-
-		"á":"&aacute;", "é":"&eacute;", "í":"&iacute;", "ó":"&oacute;", "ú":"&uacute;",
-
-		"à":"&agrave;", "è":"&egrave;", "ì":"&igrave;", "ò":"&ograve;", "ù":"&ugrave;", "ñ":"&ntilde;",
-
-		"Á":"&Aacute;", "É":"&Eacute;", "Í":"&Iacute;", "Ó":"&Oacute;", "Ú":"&Uacute;",
-
-		"À":"&Agrave;", "È":"&Egrave;", "Ì":"&Igrave;", "Ò":"&Ograve;", "Ù":"&Ugrave;", "Ñ":"&Ntilde;"}
-
-	var expr = /[áàéèíìóòúùñ]/ig;
-
-	var res = cadena.replace(expr,function(e){return chars[e]});
-
-	return res;
-
+function escaparHtml(valor) {
+  return String(valor ?? '').replace(/[&<>"']|[^\x00-\x7F]/gu, c => `&#${c.codePointAt(0)};`);
 }
 
 module.exports = { altaEmailTemple, crearEmailReserva };
