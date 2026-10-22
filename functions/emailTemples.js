@@ -1,4 +1,8 @@
 const mjml2html = require('mjml');
+const { siteUrl } = require('../config.js');
+
+// URL de la web escapada una sola vez para insertarla en los atributos de las plantillas
+const sitio = escaparHtml(siteUrl);
 
 // Opciones de la librería mjml
 var options = {
@@ -21,7 +25,7 @@ async function altaEmailTemple(nombre) {
     <mj-section>
       <mj-column>
         <!-- Logo Hotel Nube-->
-        <mj-image width="200px" src="https://danielperez.es/hotel_nube.png"></mj-image>
+        <mj-image width="200px" src="${sitio}/src/logo/hotel_nube.png"></mj-image>
 
         <mj-divider border-color="#212529"></mj-divider>
 
@@ -35,10 +39,10 @@ async function altaEmailTemple(nombre) {
     </mj-section>
 
     <!-- Image -->
-    <mj-section background-url="https://danielperez.es/cama_lateral_hab_deluxe.jpg" background-size="cover" background-repeat="no-repeat">
+    <mj-section background-url="${sitio}/src/img/deluxe_room/cama_lateral_hab_deluxe.jpg" background-size="cover" background-repeat="no-repeat">
       <mj-column width="600px">
         <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="40px" letter-spacing="1px" padding-top="30px" container-background-color="rgba(0,0,0,0.3)">Soft dreams</mj-text>
-        <mj-button background-color="#F63A4D" href="https://hotelnube.ml">
+        <mj-button background-color="#F63A4D" href="${sitio}/">
           Booking
         </mj-button>
       </mj-column>
@@ -50,13 +54,13 @@ async function altaEmailTemple(nombre) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="facebook" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="google" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="google" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="twitter" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="twitter" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="linkedin" href="https://hotelnube.ml/" background-color="#A1A0A0">
+            <mj-social-element name="linkedin" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
           </mj-social>
         </mj-column>
@@ -68,10 +72,10 @@ async function altaEmailTemple(nombre) {
           <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021</mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">&#x1F512; Privacy Policy</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/contact">&#x1F4DD; Contact</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
         </mj-column>
       </mj-section>
 
@@ -130,7 +134,7 @@ async function crearEmailReserva(reserva) {
     <mj-section>
       <mj-column>
         <!-- Logo Hotel Nube-->
-        <mj-image width="200px" src="https://danielperez.es/hotel_nube.png"></mj-image>
+        <mj-image width="200px" src="${sitio}/src/logo/hotel_nube.png"></mj-image>
 
         <mj-divider border-color="#212529"></mj-divider>
 
@@ -175,13 +179,13 @@ async function crearEmailReserva(reserva) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="facebook" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="google" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="google" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="twitter" href="https://hotelnube.ml" background-color="#A1A0A0">
+            <mj-social-element name="twitter" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
-            <mj-social-element name="linkedin" href="https://hotelnube.ml/" background-color="#A1A0A0">
+            <mj-social-element name="linkedin" href="${sitio}/" background-color="#A1A0A0">
             </mj-social-element>
           </mj-social>
         </mj-column>
@@ -193,10 +197,10 @@ async function crearEmailReserva(reserva) {
           <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021</mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/privacy">&#x1F512; Privacy Policy</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="https://hotelnube.ml/contact">&#x1F4DD; Contact</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
         </mj-column>
       </mj-section>
 
