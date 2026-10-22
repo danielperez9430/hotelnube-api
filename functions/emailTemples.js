@@ -27,7 +27,7 @@ async function altaEmailTemple(nombre) {
         <!-- Logo Hotel Nube-->
         <mj-image width="200px" src="${sitio}/src/logo/hotel_nube.png"></mj-image>
 
-        <mj-divider border-color="#212529"></mj-divider>
+        <mj-divider border-color="#DCB004" border-width="1px"></mj-divider>
 
         <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Welcome ${nombre_saneado}! &#x1F44B;</mj-text>
 
@@ -42,7 +42,7 @@ async function altaEmailTemple(nombre) {
     <mj-section background-url="${sitio}/src/img/deluxe_room/cama_lateral_hab_deluxe.jpg" background-size="cover" background-repeat="no-repeat">
       <mj-column width="600px">
         <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="40px" letter-spacing="1px" padding-top="30px" container-background-color="rgba(0,0,0,0.3)">Soft dreams</mj-text>
-        <mj-button background-color="#F63A4D" href="${sitio}/">
+        <mj-button background-color="#1F2929" color="#DCB004" border="1px solid #DCB004" font-family="helvetica" letter-spacing="2px" text-transform="uppercase" href="${sitio}/">
           Booking
         </mj-button>
       </mj-column>
@@ -54,13 +54,13 @@ async function altaEmailTemple(nombre) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="facebook" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="google" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="google" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="twitter" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="twitter" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="linkedin" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="linkedin" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
           </mj-social>
         </mj-column>
@@ -69,13 +69,13 @@ async function altaEmailTemple(nombre) {
       <!-- Sección Final -->
       <mj-section>
         <mj-column width="100%" padding-right="0">
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021</mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021&ndash;${new Date().getFullYear()}</mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none;color:#1F2929" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none;color:#1F2929" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
         </mj-column>
       </mj-section>
 
@@ -105,7 +105,7 @@ function crearHabitacion(data) {
     </mj-column>
     <mj-column padding-right="10px" padding-left="10px">
       <mj-text font-weight="bold" align="center" font-size="24px" color="#000" font-family="helvetica">${escaparHtml(element.room_name)}</mj-text>
-      <mj-divider border-color="red" border-width="2px" padding="2px"></mj-divider>
+      <mj-divider border-color="#DCB004" border-width="2px" padding="2px"></mj-divider>
       <mj-text align="justify" font-size="15px" color="#000" padding-top="20px" font-family="helvetica">&#x1F4C5; <b>Check-in:</b> ${escaparHtml(element.fecha_entrada)}</mj-text>
       <mj-text align="justify" font-size="15px" color="#000" font-family="helvetica">&#x1F4C5; <b>Check-out:</b> ${escaparHtml(element.fecha_salida)}</mj-text>
       <mj-text align="center" font-size="15px" color="#000" font-family="helvetica"><b>Price:</b> ${escaparHtml(element.precio)}&euro;</mj-text>
@@ -136,7 +136,7 @@ async function crearEmailReserva(reserva) {
         <!-- Logo Hotel Nube-->
         <mj-image width="200px" src="${sitio}/src/logo/hotel_nube.png"></mj-image>
 
-        <mj-divider border-color="#212529"></mj-divider>
+        <mj-divider border-color="#DCB004" border-width="1px"></mj-divider>
 
         <mj-text font-size="25px" color="black" font-family="helvetica" padding-top="20px">Hi ${escaparHtml(reserva.nombre)}! &#x1F44B;</mj-text>
 
@@ -158,18 +158,18 @@ async function crearEmailReserva(reserva) {
       ${habitaciones}
 
     <!-- Order data -->
-    <mj-section background-color="#568feb" padding-bottom="15px">
+    <mj-section background-color="#1F2929" padding-bottom="15px">
       <mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Number</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.id)}</mj-text>
+        <mj-text align="center" color="#DCB004" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Number</strong></mj-text>
+        <mj-text align="center" color="#F5EFE0" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.id)}</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Date</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.order_date)}</mj-text>
+        <mj-text align="center" color="#DCB004" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Order Date</strong></mj-text>
+        <mj-text align="center" color="#F5EFE0" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${escaparHtml(reserva.order_date)}</mj-text>
       </mj-column>
       <mj-column>
-        <mj-text align="center" color="#FFF" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Total Price</strong></mj-text>
-        <mj-text align="center" color="#FFF" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${order_total_price}</mj-text>
+        <mj-text align="center" color="#DCB004" font-size="15px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px" padding-bottom="0px"><strong>Total Price</strong></mj-text>
+        <mj-text align="center" color="#F5EFE0" font-size="13px" font-family="Helvetica" padding-left="25px" padding-right="25px" padding-bottom="20px" padding-top="10px">${order_total_price}</mj-text>
       </mj-column>
     </mj-section>
 
@@ -179,13 +179,13 @@ async function crearEmailReserva(reserva) {
       <mj-section>
         <mj-column width="100%" padding="0">
           <mj-social font-size="15px" icon-size="30px" mode="horizontal" padding="0" align="center">
-            <mj-social-element name="facebook" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="facebook" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="google" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="google" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="twitter" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="twitter" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
-            <mj-social-element name="linkedin" href="${sitio}/" background-color="#A1A0A0">
+            <mj-social-element name="linkedin" href="${sitio}/" background-color="#1F2929">
             </mj-social-element>
           </mj-social>
         </mj-column>
@@ -194,13 +194,13 @@ async function crearEmailReserva(reserva) {
       <!-- Sección Final -->
       <mj-section>
         <mj-column width="100%" padding-right="0">
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021</mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center">&#xa9; Hotel Nube 2021&ndash;${new Date().getFullYear()}</mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none;color:#1F2929" href="${sitio}/privacy.php">&#x1F512; Privacy Policy</a></mj-text>
         </mj-column>
         <mj-column>
-          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
+          <mj-text font-size="15px" color="grey" font-family="helvetica" align="center"><a style="text-decoration:none;color:#1F2929" href="${sitio}/contact.php">&#x1F4DD; Contact</a></mj-text>
         </mj-column>
       </mj-section>
 
