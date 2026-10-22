@@ -4,16 +4,15 @@
 const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // ExpresJS
 const app = express();
 const port = process.env.PORT || 8001;
 
-// Body Parser
-app.use(bodyParser.urlencoded({extended: true})); // This will help in encoding.
-app.use(bodyParser.json()); // this will support json format
+// Lectura del cuerpo de las peticiones (formularios y JSON)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Librería que añade una capa extra de seguridad
 app.use(
@@ -85,14 +84,14 @@ app.get('/buscar/:pais/:provincia', (req, res) => {
 });
 
 
-app.get('/email/:nombre', (req, res) => {
+app.get('/email/:nombre', async (req, res) => {
 
     const nombre = req.params.nombre.replace(/\+/g, " ");
     
-    res.send(email.altaEmailTemple(nombre).html);
+    res.send((await email.altaEmailTemple(nombre)).html);
 });
 
-app.post('/email/reserve/', (req, res) => {
+app.post('/email/reserve/', async (req, res) => {
     const reserva = req.body;
 
     // Validamos que la reserva tenga al menos una habitación
@@ -100,7 +99,7 @@ app.post('/email/reserve/', (req, res) => {
         return res.status(400).json({ error: 'La reserva debe incluir al menos una habitación' });
     }
 
-    res.send(email.crearEmailReserva(reserva).html);
+    res.send((await email.crearEmailReserva(reserva)).html);
 });
 
 // Evitamos la indexación de la API por los motores de busqueda
