@@ -44,7 +44,7 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
 
 ## ✅ Requisitos
 
-- 🟢 **Node.js 18** o superior
+- 🟢 **Node.js 22.9** o superior (para cargar el `.env` con `--env-file-if-exists`)
 - 📦 **npm**
 
 ## 🚀 Puesta en marcha
@@ -57,7 +57,10 @@ cd hotelnube-api
 # 2. Instala las dependencias exactas del package-lock.json
 npm ci
 
-# 3. Arranca la API
+# 3. Crea tu configuración local (opcional, ver Configuración)
+cp .env.example .env
+
+# 4. Arranca la API
 npm start
 ```
 
@@ -74,6 +77,8 @@ Aplicación ejecutandose en la ruta: http://localhost:8001
 | `PORT` | `8001` | Puerto en el que escucha la API |
 | `SITE_URL` | `http://localhost:8000` | URL pública de la web de Hotel Nube (sin barra final; si la lleva se quita). Se usa en los enlaces e imágenes de los correos y en el botón **Regresar** de la página 404 |
 | `ALLOWED_ORIGINS` | origen de `SITE_URL` | Orígenes separados por comas que pueden llamar a la API desde el navegador (CORS) |
+
+Se pueden definir en un fichero `.env` (copia [`.env.example`](.env.example)), que `npm start` carga si existe y que no se sube al repositorio, o directamente como variables de entorno, que tienen prioridad:
 
 ```bash
 PORT=3000 SITE_URL=https://hotelnube.example.com npm start
@@ -227,7 +232,7 @@ npm run lint    # revisa el código con ESLint
 ```
 
 > [!NOTE]
-> Las herramientas de desarrollo (ESLint 10) necesitan **Node.js 20.19, 22.13 o 24** en adelante; para ejecutar la API basta con Node.js 18.
+> Las herramientas de desarrollo (ESLint 10) necesitan **Node.js 20.19, 22.13 o 24** en adelante; para ejecutar la API basta con Node.js 22.9.
 
 🤖 **Integración continua**: [GitHub Actions](.github/workflows/ci.yml) ejecuta `npm run lint` y `npm test` con Node 22 y 24 en cada push y pull request a `master`.
 
