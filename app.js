@@ -1,0 +1,124 @@
+// @author Daniel Pérez Fernández
+
+// Importamos las librerias
+const fs = require('fs');
+const express = require('express');
+const helmet = require("helmet");
+const cors = require('cors');
+const path = require('path');
+const { siteUrl, allowedOrigins } = require('./config.js');
+
+// ExpresJS
+const app = express();
+
+// Lectura del cuerpo de las peticiones (formularios y JSON)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Librería que añade una capa extra de seguridad
+app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  );
+
+// Solo los orígenes permitidos reciben la cabecera Access-Control-Allow-Origin.
+// Las peticiones sin cabecera Origin (curl, el servidor PHP) no se ven afectadas
+app.use(cors({ origin: allowedOrigins }));
+
+// Servir contenido estático
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Requerimos js
+const email = require('./functions/emailTemples.js');
+
+// Página 404 leída una sola vez al arrancar, con el enlace de vuelta a la web
+const pagina404 = fs.readFileSync(path.join(__dirname, 'public', '404.html'), 'utf8')
+    .replaceAll('{{SITE_URL}}', email.escaparHtml(siteUrl));
+
+
+let datos = [];
+
+try {
+    // Comprobamos si el archivo existe y lo cargamos
+    const rutaDatos = path.join(__dirname, 'data', 'datos.json');
+    if (fs.existsSync(rutaDatos)) {
+        datos = require(rutaDatos);
+    }
+} catch (err) {
+    // En caso de error mostramos el mensaje por consola y seguimos con un array vacío
+    console.error(err);
+}
+
+
+app.get('/paises', (req, res) => {
+    
+    res.json(datos.map(element => element.pais));
+});
+
+
+app.get('/buscar/:pais', (req, res) => {
+    const pais = req.params.pais;
+    const datos_pais = [];
+
+    datos.forEach(element => {
+        if (element.pais === pais) {
+            element.provincias.forEach(element => {
+                datos_pais.push(element.provincia);
+            });
+        }
+    });
+
+    res.json(datos_pais);
+});
+
+app.get('/buscar/:pais/:provincia', (req, res) => {
+    const pais = req.params.pais;
+    const provincia = req.params.provincia;
+    const datos_pais = [];
+
+    datos.forEach(element => {
+        if (element.pais === pais) {
+            element.provincias.forEach(element => {
+                if (element.provincia === provincia) {
+                    datos_pais.push(element.ciudades);
+                }
+            });
+        }
+    });
+
+    res.json(datos_pais);
+});
+
+
+app.get('/email/:nombre', async (req, res) => {
+
+    const nombre = req.params.nombre.replace(/\+/g, " ");
+    
+    res.send((await email.altaEmailTemple(nombre)).html);
+});
+
+app.post('/email/reserve/', async (req, res) => {
+    const reserva = req.body;
+
+    // Validamos que la reserva tenga al menos una habitación
+    if (!reserva || !Array.isArray(reserva.habitaciones) || reserva.habitaciones.length === 0) {
+        return res.status(400).json({ error: 'La reserva debe incluir al menos una habitación' });
+    }
+
+    res.send((await email.crearEmailReserva(reserva)).html);
+});
+
+// Evitamos la indexación de la API por los motores de busqueda
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
+
+// Ruta génerica cuando ningúna de las anteriores es válida mostramos el 
+// archivo de error 404
+app.use((req, res) => {
+    res.status(404).type('html').send(pagina404);
+});
+
+module.exports = app;
