@@ -225,4 +225,4 @@ function escaparHtml(valor) {
   return String(valor ?? '').replace(/[&<>"']|[^\x00-\x7F]/gu, c => `&#${c.codePointAt(0)};`);
 }
 
-module.exports = { altaEmailTemple, crearEmailReserva };
+module.exports = { altaEmailTemple, crearEmailReserva, escaparHtml };
