@@ -108,6 +108,28 @@ describe('Correo de reserva', () => {
     assert.ok(res.text.includes('230.5&euro;'));
   });
 
+  it('incluye los servicios extra en el correo y en el total', async () => {
+    const res = await request(app).post('/email/reserve').send({
+      id: 8, nombre: 'Marcos', order_date: '2021-03-01',
+      habitaciones: [{ room_name: 'Deluxe', precio: 150 }],
+      servicios: [{ nombre: 'Spa <b>Circuit</b>', precio: 45 }, { nombre: 'Concierge', precio: 0 }]
+    }).expect(200);
+    assert.ok(res.text.includes('Extras'));
+    assert.ok(res.text.includes('Spa &#60;b&#62;Circuit&#60;/b&#62;'));
+    assert.ok(!res.text.includes('<b>Circuit'));
+    assert.ok(res.text.includes('Included'));
+    assert.ok(res.text.includes('195&euro;'));
+  });
+
+  it('sin servicios extra no muestra la sección', async () => {
+    const res = await request(app).post('/email/reserve').send({ id: 9, habitaciones: [{ room_name: 'Single', precio: 80 }] }).expect(200);
+    assert.ok(!res.text.includes('Extras'));
+  });
+
+  it('responde 400 si los servicios no son una lista', async () => {
+    await request(app).post('/email/reserve').send({ id: 1, habitaciones: [{ precio: 1 }], servicios: 'spa' }).expect(400);
+  });
+
   it('responde 400 si la reserva no tiene habitaciones', async () => {
     await request(app).post('/email/reserve').send({ id: 1, habitaciones: [] }).expect(400);
     await request(app).post('/email/reserve').send({ id: 1 }).expect(400);

@@ -107,6 +107,11 @@ app.post('/email/reserve/', async (req, res) => {
         return res.status(400).json({ error: 'La reserva debe incluir al menos una habitación' });
     }
 
+    // Los servicios extra son opcionales, pero si llegan tienen que ser una lista
+    if (reserva.servicios !== undefined && !Array.isArray(reserva.servicios)) {
+        return res.status(400).json({ error: 'Los servicios de la reserva deben ser una lista' });
+    }
+
     res.send((await email.crearEmailReserva(reserva)).html);
 });
 

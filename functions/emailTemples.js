@@ -118,6 +118,39 @@ function crearHabitacion(data) {
 }
 
 /**
+ * Función que crea la plantilla de los servicios extra contratados con la
+ * reserva. Devuelve una cadena vacía si no hay ninguno
+ *
+ * @param {Array} servicios array de objetos con nombre y precio
+ * @returns {String} cadena de texto con la plantilla de los servicios
+ */
+function crearServicios(servicios) {
+
+  if (servicios.length === 0) {
+    return '';
+  }
+
+  var filas = servicios.map(servicio => {
+    var precio = Number(servicio.precio) > 0 ? escaparHtml(Number(servicio.precio)) + '&euro;' : 'Included';
+
+    return `<tr>
+              <td style="padding:8px 0;border-bottom:1px solid #e6dcc3;">${escaparHtml(servicio.nombre)}</td>
+              <td style="padding:8px 0;border-bottom:1px solid #e6dcc3;text-align:right;">${precio}</td>
+            </tr>`;
+  }).join('');
+
+  return `<mj-section background-color="#f3f3f0" padding-top="0px">
+    <mj-column>
+      <mj-text font-weight="bold" font-size="18px" color="#000" font-family="helvetica">Extras</mj-text>
+      <mj-divider border-color="#DCB004" border-width="2px" padding="2px 25px"></mj-divider>
+      <mj-table font-size="15px" color="#000" font-family="helvetica">
+            ${filas}
+      </mj-table>
+    </mj-column>
+  </mj-section>`;
+}
+
+/**
  * Función que genera el email de la reserva
  * 
  * @param {Object} reserva Objecto con la información de la reserva
@@ -126,9 +159,12 @@ function crearHabitacion(data) {
 async function crearEmailReserva(reserva) {
 
    var habitaciones = crearHabitacion(reserva);
+   var servicios = Array.isArray(reserva.servicios) ? reserva.servicios : [];
+   var extras = crearServicios(servicios);
 
-   // Sumamos el precio de todas las habitaciones reservadas
-   var total = reserva.habitaciones.reduce((suma, habitacion) => suma + Number(habitacion.precio), 0);
+   // Sumamos el precio de todas las habitaciones reservadas y de los extras
+   var total = reserva.habitaciones.reduce((suma, habitacion) => suma + Number(habitacion.precio), 0)
+     + servicios.reduce((suma, servicio) => suma + Number(servicio.precio), 0);
    var order_total_price = escaparHtml(Math.round(total * 100) / 100) + '&euro;';
 
   var emailTemple = `<mjml>
@@ -158,6 +194,9 @@ async function crearEmailReserva(reserva) {
 
     <!-- Habitaciones Reservadas -->
       ${habitaciones}
+
+    <!-- Servicios extra -->
+      ${extras}
 
     <!-- Order data -->
     <mj-section background-color="#1F2929" padding-bottom="15px">
