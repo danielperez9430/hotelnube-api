@@ -69,6 +69,14 @@ describe('Correo de bienvenida', () => {
     assert.ok(!html.includes('hotelnube.ml'));
     assert.ok(!html.includes('danielperez.es'));
   });
+
+  it('no carga recursos de terceros (fuentes, iconos)', () => {
+    // Solo se permiten URLs de la web (SITE_URL); la de w3.org es el xmlns
+    const externas = (html.match(/https?:\/\/[^"'\s)]+/g) || [])
+      .filter(url => !url.startsWith(SITE_URL) && !url.startsWith('http://www.w3.org/'));
+    assert.deepEqual(externas, []);
+    assert.equal((html.match(/\/src\/icons\/social\/[a-z]+\.png/g) || []).length, 4);
+  });
 });
 
 describe('Correo de reserva', () => {
@@ -116,6 +124,11 @@ describe('Rutas inexistentes y robots.txt', () => {
       assert.ok(!/<(script|link|lottie-player)[^>]*(src|href)="(https?:)?\/\//.test(res.text));
     });
   }
+
+  it('la plantilla de la 404 no se puede pedir directamente', async () => {
+    const res = await request(app).get('/404.html').expect(404);
+    assert.ok(!res.text.includes('{{SITE_URL}}'));
+  });
 
   it('GET /robots.txt impide la indexación', async () => {
     const res = await request(app).get('/robots.txt').expect(200).expect('Content-Type', /text\/plain/);

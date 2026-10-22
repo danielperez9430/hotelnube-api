@@ -32,8 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Requerimos js
 const email = require('./functions/emailTemples.js');
 
-// Página 404 leída una sola vez al arrancar, con el enlace de vuelta a la web
-const pagina404 = fs.readFileSync(path.join(__dirname, 'public', '404.html'), 'utf8')
+// Página 404 leída una sola vez al arrancar, con el enlace de vuelta a la web.
+// La plantilla está fuera de public/ para que no se pueda pedir sin sustituir
+const pagina404 = fs.readFileSync(path.join(__dirname, 'views', '404.html'), 'utf8')
     .replaceAll('{{SITE_URL}}', email.escaparHtml(siteUrl));
 
 

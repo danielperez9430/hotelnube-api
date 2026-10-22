@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/banner.png" alt="Hotel Nube API — Geographic data · Email templates" width="100%">
+</p>
+
 # ☁️ Hotel Nube API
 
 [![CI](https://github.com/danielperez9430/hotelnube-api/actions/workflows/ci.yml/badge.svg)](https://github.com/danielperez9430/hotelnube-api/actions/workflows/ci.yml)
@@ -23,6 +27,7 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
   - [🤖 Otros](#-otros)
 - [🧪 Tests y lint](#-tests-y-lint)
 - [🗂️ Estructura del proyecto](#️-estructura-del-proyecto)
+- [🎨 Identidad visual](#-identidad-visual)
 - [🔒 Seguridad](#-seguridad)
 - [🤝 Contribuir](#-contribuir)
 - [📄 Licencia](#-licencia)
@@ -180,7 +185,7 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
 | Método | Ruta | Respuesta |
 | ------ | ---- | --------- |
 | `GET` | `/robots.txt` | Impide la indexación de la API en buscadores |
-| `*` | Cualquier otra ruta | `404` con la página [`public/404.html`](public/404.html) |
+| `*` | Cualquier otra ruta | `404` con la página [`views/404.html`](views/404.html) |
 
 La página 404 no carga nada de fuera: el reproductor [lottie-player](https://github.com/LottieFiles/lottie-player) 2.0.12 (licencia MIT) está en `public/vendor/lottie-player/` y la animación en `public/animations/404.json`.
 
@@ -210,18 +215,23 @@ hotelnube-api/
 │   └── emailTemples.js         # Plantillas MJML de los correos
 ├── 📁 data/
 │   └── datos.json              # Países, provincias y ciudades
+├── 📁 views/
+│   └── 404.html                # Plantilla de la 404 ({{SITE_URL}} se sustituye al arrancar)
 ├── 📁 public/                  # Contenido estático
-│   ├── 404.html                # Página 404 ({{SITE_URL}} se sustituye al arrancar)
-│   ├── css/                    # Estilos
+│   ├── css/                    # Estilos de la página 404
 │   ├── animations/             # Animación de la página 404
 │   └── vendor/lottie-player/   # Reproductor de animaciones (copia local)
 ├── 📁 test/                    # Tests (node:test + supertest)
-├── 📁 .github/workflows/       # Integración continua
+├── 📁 .github/                 # Integración continua y banner del README
 ├── 🐳 Dockerfile
 ├── 🧹 eslint.config.js
 ├── 📦 package.json
 └── 🔒 package-lock.json
 ```
+
+## 🎨 Identidad visual
+
+Los correos y la página 404 siguen la paleta de lujo de Hotel Nube: carbón `#1F2929`, oro `#DCB004` y marfil `#F5EFE0`. Las imágenes de los correos (logo y fotos de las habitaciones) se sirven desde la web de Hotel Nube (`SITE_URL`).
 
 ## 🔒 Seguridad
 
