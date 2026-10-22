@@ -7,17 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="/vendor/lottie-player/lottie-player.js"></script>
 </head>
 
 <body>
 
     <h1>Ups, la página que busca no existe</h1>
 
-    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_kxwxetez.json" background="transparent" speed="1"
+    <lottie-player src="/animations/404.json" background="transparent" speed="1"
         style="width: 400px; height: 400px;" autoplay></lottie-player>
 
-    <button id="home" onclick="location.href = 'https://hotelnube.ml';">Regresar</button>
+    <button id="home" data-href="{{SITE_URL}}/" onclick="location.href = this.dataset.href;">Regresar</button>
 
 </body>
 

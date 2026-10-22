@@ -5,10 +5,11 @@ const fs = require('fs');
 const express = require('express');
 const helmet = require("helmet");
 const cors = require('cors');
+const path = require('path');
+const { port, siteUrl, allowedOrigins } = require('./config.js');
 
 // ExpresJS
 const app = express();
-const port = process.env.PORT || 8001;
 
 // Lectura del cuerpo de las peticiones (formularios y JSON)
 app.use(express.urlencoded({ extended: true }));
@@ -21,14 +22,19 @@ app.use(
     })
   );
 
-// Permitimos el uso de cors
-app.use(cors());
+// Solo los orígenes permitidos reciben la cabecera Access-Control-Allow-Origin.
+// Las peticiones sin cabecera Origin (curl, el servidor PHP) no se ven afectadas
+app.use(cors({ origin: allowedOrigins }));
 
 // Servir contenido estático
 app.use(express.static('public'));
 
 // Requerimos js
 const email = require('./functions/emailTemples.js');
+
+// Página 404 leída una sola vez al arrancar, con el enlace de vuelta a la web
+const pagina404 = fs.readFileSync(path.join(__dirname, 'public', '404.html'), 'utf8')
+    .replaceAll('{{SITE_URL}}', email.escaparHtml(siteUrl));
 
 
 let datos = [];
@@ -111,7 +117,7 @@ app.get('/robots.txt', function (req, res) {
 // Ruta génerica cuando ningúna de las anteriores es válida mostramos el 
 // archivo de error 404
 app.use((req, res) => {
-    res.status(404).sendFile(__dirname + '/public/404.html');
+    res.status(404).type('html').send(pagina404);
 });
 
 // Muestra el puerto de escucha de nuestra aplicación en ExpressJS

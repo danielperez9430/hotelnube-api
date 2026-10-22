@@ -29,7 +29,7 @@ API auxiliar de **[Hotel Nube](https://github.com/danielperez9430/hotel-nube-pro
 | ------- | --- |
 | [Express 5](https://expressjs.com) | Servidor HTTP y rutas |
 | [Helmet 8](https://helmetjs.github.io) | Cabeceras de seguridad |
-| [cors](https://github.com/expressjs/cors) | Permite llamadas desde el navegador de otros dominios |
+| [cors](https://github.com/expressjs/cors) | Permite llamadas desde el navegador de los dominios autorizados |
 | [MJML 5](https://mjml.io) | Compilación de las plantillas de correo a HTML compatible con clientes de email |
 
 ## ✅ Requisitos
@@ -62,9 +62,14 @@ Aplicación ejecutandose en la ruta: http://localhost:8001
 | Variable | Por defecto | Descripción |
 | -------- | ----------- | ----------- |
 | `PORT` | `8001` | Puerto en el que escucha la API |
+| `SITE_URL` | `http://localhost:8000` | URL pública de la web de Hotel Nube (sin barra final; si la lleva se quita). Se usa en los enlaces e imágenes de los correos y en el botón **Regresar** de la página 404 |
+| `ALLOWED_ORIGINS` | origen de `SITE_URL` | Orígenes separados por comas que pueden llamar a la API desde el navegador (CORS) |
 
 ```bash
-PORT=3000 npm start
+PORT=3000 SITE_URL=https://hotelnube.example.com npm start
+
+# Varios orígenes permitidos
+ALLOWED_ORIGINS="https://hotelnube.example.com,http://localhost:8000" npm start
 ```
 
 ## 📡 Endpoints
@@ -101,6 +106,16 @@ curl "http://localhost:8001/buscar/Spain/A%20Coruna"
 
 Ambas rutas devuelven el **HTML completo** del correo, listo para enviarlo. Todos los datos recibidos se escapan antes de insertarlos en la plantilla.
 
+Los enlaces del correo (botón Booking, redes sociales, Privacy Policy y Contact) y las imágenes (logo y fondo) apuntan a la web indicada en `SITE_URL`:
+
+| Elemento | URL |
+| -------- | --- |
+| 🖼️ Logo | `${SITE_URL}/src/logo/hotel_nube.png` |
+| 🛏️ Imagen de fondo | `${SITE_URL}/src/img/deluxe_room/cama_lateral_hab_deluxe.jpg` |
+| 🔗 Booking y redes sociales | `${SITE_URL}/` |
+| 🔒 Privacy Policy | `${SITE_URL}/privacy.php` |
+| 📝 Contact | `${SITE_URL}/contact.php` |
+
 #### 👋 `GET /email/:nombre` — Correo de bienvenida
 
 Los `+` del nombre se convierten en espacios.
@@ -121,7 +136,7 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
   "habitaciones": [
     {
       "room_name": "Deluxe Room",
-      "room_img": "https://hotelnube.ml/src/img/carousel/1.jpg",
+      "room_img": "http://localhost:8000/src/img/carousel/1.jpg",
       "fecha_entrada": "2021-03-02",
       "fecha_salida": "2021-03-04",
       "precio": "150"
@@ -142,16 +157,23 @@ Acepta JSON o formulario (`application/x-www-form-urlencoded`). El total del ped
 | `GET` | `/robots.txt` | Impide la indexación de la API en buscadores |
 | `*` | Cualquier otra ruta | `404` con la página [`public/404.html`](public/404.html) |
 
+La página 404 no carga nada de fuera: el reproductor [lottie-player](https://github.com/LottieFiles/lottie-player) 2.0.12 (licencia MIT) está en `public/vendor/lottie-player/` y la animación en `public/animations/404.json`.
+
 ## 🗂️ Estructura del proyecto
 
 ```
 hotelnube-api/
 ├── 📄 index.js                 # Servidor Express y definición de rutas
+├── ⚙️ config.js                # Configuración a partir de variables de entorno
 ├── 📁 functions/
 │   └── emailTemples.js         # Plantillas MJML de los correos
 ├── 📁 data/
 │   └── datos.json              # Países, provincias y ciudades
-├── 📁 public/                  # Contenido estático (página 404 y estilos)
+├── 📁 public/                  # Contenido estático
+│   ├── 404.html                # Página 404 ({{SITE_URL}} se sustituye al arrancar)
+│   ├── css/                    # Estilos
+│   ├── animations/             # Animación de la página 404
+│   └── vendor/lottie-player/   # Reproductor de animaciones (copia local)
 ├── 📦 package.json
 └── 🔒 package-lock.json
 ```
@@ -160,7 +182,8 @@ hotelnube-api/
 
 - 🪖 **Helmet** añade cabeceras de seguridad. La CSP está desactivada porque la API devuelve HTML de correos.
 - 🧼 **Escapado de datos**: todo lo que se inserta en las plantillas pasa por `escaparHtml()`, que evita inyectar HTML o scripts en los correos.
-- 🌐 **CORS abierto**: cualquier origen puede llamar a la API. Si se despliega en producción, conviene limitarlo al dominio de Hotel Nube.
+- 🌐 **CORS restringido**: solo los orígenes de `ALLOWED_ORIGINS` (o, si no se define, el de `SITE_URL`) reciben la cabecera `Access-Control-Allow-Origin`; el navegador bloquea al resto. Las peticiones sin cabecera `Origin`, como las del servidor PHP o `curl`, funcionan igual.
+- 📦 **Sin recursos de terceros en la página 404**: el script y la animación se sirven desde la propia API, con la versión fijada.
 
 ## 🤝 Contribuir
 
