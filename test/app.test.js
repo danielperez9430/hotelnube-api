@@ -117,6 +117,11 @@ describe('Rutas inexistentes y robots.txt', () => {
     });
   }
 
+  it('la plantilla de la 404 no se puede pedir directamente', async () => {
+    const res = await request(app).get('/404.html').expect(404);
+    assert.ok(!res.text.includes('{{SITE_URL}}'));
+  });
+
   it('GET /robots.txt impide la indexación', async () => {
     const res = await request(app).get('/robots.txt').expect(200).expect('Content-Type', /text\/plain/);
     assert.equal(res.text, 'User-agent: *\nDisallow: /');
