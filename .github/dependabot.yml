@@ -1,5 +1,6 @@
-# Actualizaciones automáticas de dependencias. Las versiones menores y los
-# parches llegan agrupados en un solo PR por ecosistema; las mayores, uno a uno
+# Actualizaciones automáticas de dependencias: solo versiones menores y
+# parches, agrupadas en un PR por ecosistema. Las versiones mayores pueden
+# romper la compatibilidad, así que se actualizan a mano
 version: 2
 updates:
   - package-ecosystem: npm
@@ -15,7 +16,11 @@ updates:
       prefix-development: "chore(deps-dev)"
     groups:
       menores:
+        patterns: ["*"]
         update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
@@ -29,9 +34,12 @@ updates:
     groups:
       acciones:
         patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
 
-  # Imagen base del Dockerfile (node). Las versiones mayores de Node se
-  # actualizan a mano, junto con la matriz de la CI
+  # Imagen base del Dockerfile (node)
   - package-ecosystem: docker
     directory: /
     schedule:
@@ -42,5 +50,5 @@ updates:
     commit-message:
       prefix: "chore(docker)"
     ignore:
-      - dependency-name: node
+      - dependency-name: "*"
         update-types: [version-update:semver-major]
